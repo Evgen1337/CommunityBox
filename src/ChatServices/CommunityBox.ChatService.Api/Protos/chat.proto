@@ -1,0 +1,85 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "CommunityBox.ChatService.Api.Proto";
+
+package chat;
+
+service ChatServices {
+  rpc GetChats(GetChatsRequest) returns (GetChatsResponse);
+  rpc GetChatId(GetChatIdRequest) returns (GetChatIdResponse);
+  rpc SendSingleMessage(SendMessageRequest) returns (Empty);
+  rpc JoinAtMessenger(stream JoinAtMessengerRequest) returns (stream JoinAtMessengerResponse);
+}
+
+//Requests
+message GetChatsRequest {
+  string userId = 1;
+}
+
+message GetChatIdRequest {
+  string firstUserId = 1;
+  string secondUserId = 2;
+}
+
+message JoinAtMessengerRequest {
+  int64 chatId = 1;
+  NewMessageModel message = 2;
+  JoinAtMessengerRequestType requestType = 3;
+}
+
+message SendMessageRequest {
+  NewSingleMessageModel message = 1;
+}
+
+//Responses
+message GetChatsResponse {
+  repeated ChatPreviewModel chatPreviews = 1;
+}
+
+message GetChatIdResponse {
+  int64 id = 1;
+}
+
+message JoinAtMessengerResponse {
+  JoinAtMessengerRequestType requestType = 1;
+  int64 chatId = 2;
+  repeated MessageModel messages = 3;
+}
+
+//Models
+message ChatPreviewModel {
+  int64 chatId = 1;
+  string lastMessageUserName = 2;
+  string lastMessageContent = 3;
+  google.protobuf.Timestamp LastMessageReceivedDate = 4;
+}
+
+message NewSingleMessageModel {
+  string recipientUserId = 1;
+  string userId = 2;
+  string content = 3;
+}
+
+message NewMessageModel {
+  string userId = 1;
+  string content = 3;
+}
+
+message MessageModel {
+  string userId = 1;
+  string receiverUserId = 2;
+  string content = 3;
+  google.protobuf.Timestamp receivedDateUtc = 4;
+  int64 chatId = 5;
+}
+
+enum JoinAtMessengerRequestType {
+  NONE = 0;
+  GET_MESSAGES = 1;
+  SEND_MESSAGE = 2;
+}
+
+message Empty {
+}

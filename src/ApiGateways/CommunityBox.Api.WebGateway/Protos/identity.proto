@@ -1,0 +1,109 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+
+option csharp_namespace = "CommunityBox.IdentityService.Api.Proto";
+
+package identity;
+
+service IdentityServices {
+  rpc Auth (AuthRequest) returns (AuthResponse);
+  rpc ValidateToken (ValidateTokenRequest) returns (ValidateTokenResponse);
+  rpc CreateUser (CreateUserRequest) returns (CreateUserResponse);
+  rpc GetUser (GetUserRequest) returns (GetUserResponse);
+  rpc UpdateUser (UpdateUserRequest) returns (UpdateUserResponse);
+}
+
+//Requests
+message AuthRequest {
+  LogInModel logInModel = 1;
+}
+
+message CreateUserRequest {
+  NewUserModel user = 1;
+}
+
+message GetUserRequest {
+  string id = 1;
+}
+
+message UpdateUserRequest {
+  UpdateUserModel user = 1;
+}
+
+message ValidateTokenRequest {
+  string token = 1;
+}
+
+//Responses
+message AuthResponse {
+  AuthModel auth = 1;
+}
+
+message CreateUserResponse {
+  UserModel user = 1;
+}
+
+message GetUserResponse {
+  UserModel user = 1;
+}
+
+message UpdateUserResponse {
+  UserModel user = 1;
+}
+
+message ValidateTokenResponse {
+  bool isValid = 1;
+}
+
+//Models
+message NewUserModel {
+  string userName = 1;
+  string email = 2;
+  string phoneNumber = 3;
+  string password = 4;
+  UserPersonalInformationModel userPersonalInformation = 5;
+}
+
+message UpdateUserModel {
+  string id = 1;
+  string userName = 2;
+  UserPersonalInformationModel userPersonalInformation = 7;
+  AccountSettingModel accountSetting = 8;
+}
+
+message UserModel {
+  string id = 1;
+  string userName = 2;
+  string email = 3;
+  string phoneNumber = 4;
+  google.protobuf.Timestamp creationUtcDate = 5;
+  google.protobuf.Timestamp updateUtcDate = 6;
+  UserPersonalInformationModel userPersonalInformation = 7;
+  AccountSettingModel accountSetting = 8;
+}
+
+message UserPersonalInformationModel {
+  string firstName = 1;
+  string lastName = 2;
+  google.protobuf.StringValue bio = 3;
+  google.protobuf.Timestamp birthDay = 4;
+}
+
+message AccountSettingModel {
+  bool showPhone = 1;
+  bool showEmail = 2;
+  bool showBirthDay = 3;
+}
+
+message LogInModel {
+  string email = 1;
+  string password = 2;
+}
+
+message AuthModel {
+  string userId = 1;
+  string email = 2;
+  string token = 3;
+}

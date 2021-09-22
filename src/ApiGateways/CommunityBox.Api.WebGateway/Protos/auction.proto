@@ -1,0 +1,146 @@
+syntax = "proto3";
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+
+option csharp_namespace = "CommunityBox.AuctionService.Api.Proto";
+
+package auction;
+
+service AuctionServices {
+  rpc Create (CreateAuctionRequest) returns (CreateAuctionResponse);
+  rpc Update (UpdateAuctionRequest) returns (UpdateAuctionResponse);
+  rpc Delete (DeleteAuctionRequest) returns (Empty);
+  rpc Get (GetAuctionRequest) returns (GetAuctionResponse);
+  rpc GetList (GetAuctionListRequest) returns (GetAuctionListResponse);
+
+  rpc AddSubscriber (AddSubscriberRequest) returns (Empty);
+  rpc RemoveSubscriber (RemoveSubscriberRequest) returns (Empty);
+  rpc SetBet (SetBetRequest) returns (Empty);
+  rpc RemoveBet (RemoveBetRequest) returns (Empty);
+}
+
+//Requests
+message CreateAuctionRequest {
+  NewAuctionModel auction = 1;
+}
+
+message UpdateAuctionRequest {
+  UpdateAuctionModel auction = 1;
+}
+
+message DeleteAuctionRequest {
+  int64 id = 1;
+  string ownerUserId = 2;
+}
+
+message GetAuctionRequest {
+  int64 id = 1;
+}
+
+message GetAuctionListRequest {
+  string userId = 1;
+}
+
+message AddSubscriberRequest{
+  string userId = 1;
+  int64 auctionId = 2;
+}
+
+message RemoveSubscriberRequest{
+  string userId = 1;
+  int64 auctionId = 2;
+}
+
+message SetBetRequest{
+  string userId = 1;
+  int64 auctionId = 2;
+  DecimalValue value = 3;
+}
+
+message RemoveBetRequest{
+  string userId = 1;
+  int64 auctionId = 2;
+}
+
+//Responses
+message CreateAuctionResponse {
+  AuctionModel auction = 1;
+}
+
+message UpdateAuctionResponse {
+  AuctionModel auction = 1;
+}
+
+message GetAuctionResponse {
+  AuctionModel auction = 1;
+}
+
+message GetAuctionListResponse {
+  repeated AuctionModel auctions = 1;
+}
+
+//Models
+message NewAuctionModel {
+  NewLotModel lot = 1;
+  string ownerUserId = 2;
+  google.protobuf.Duration duration = 3;
+  DecimalValue startingPrice = 4;
+}
+
+message UpdateAuctionModel {
+  int64 id = 1;
+  LotModel lot = 2;
+  string ownerUserId = 3;
+  google.protobuf.Duration duration = 4;
+}
+
+message AuctionModel {
+  int64 id = 1;
+  LotModel lot = 2;
+  string ownerUserId = 3;
+  google.protobuf.Timestamp creationUtcDate = 4;
+  google.protobuf.Timestamp updateUtcDate = 5;
+  google.protobuf.Duration duration = 6;
+  DecimalValue startingPrice = 7;
+  repeated SubscriberModel subscribers = 8;
+  repeated AuctioneerModel auctioneers = 9;
+}
+
+message LotModel {
+  string name = 1;
+  google.protobuf.StringValue comment = 2;
+}
+
+message NewLotModel {
+  string name = 1;
+  google.protobuf.StringValue comment = 2;
+}
+
+message AuctioneerModel {
+  int64 id = 1;
+  int64 auctionId = 2;
+  string userId = 3;
+  DecimalValue bet = 4;
+}
+
+message SubscriberModel {
+  int64 Id = 1;
+  int64 auctionId = 2;
+  string userId = 3;
+}
+
+message DecimalValue {
+
+  // Whole units part of the amount
+  int64 units = 1;
+
+  // Nano units of the amount (10^-9)
+  // Must be same sign as units
+  sfixed32 nanos = 2;
+}
+
+message Empty {
+
+}

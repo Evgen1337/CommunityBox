@@ -1,0 +1,158 @@
+﻿@model IReadOnlyCollection<CommunityBox.Web.Mvc.ViewModels.Chat.ChatPreviewViewModel>
+
+@section Styles {
+    <link href="~/css/font-awesome.css" type="text/css" rel="stylesheet"/>
+    <link href="~/css/chat.css" type="text/css" rel="stylesheet"/>
+}
+
+@section Scripts {
+    <script src="~/js/signalr/dist/browser/signalr.js"></script>
+
+    <script>
+    
+        $(document).ready(function () {
+            
+            let connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+            const typeMsg = $('.type_msg');
+            
+            typeMsg.hide();
+            
+            connection.start().then(function () {
+            }).catch(function (err) {
+                return alert(err);
+            });
+            
+            let openedChatId;
+            const chat_list = $('.chat_list');
+            const msg_send_btn = $('#msg_send_btn');
+            const write_msg = $('#write_msg');
+                        
+            chat_list.mouseenter(function () {
+                $(this).css("background", "#c4c4c4").css('cursor', 'pointer');
+            }).mouseleave(function () {
+                $(this).css("background", "").css('cursor', 'default');
+            });
+            
+            msg_send_btn.hide();
+            
+            write_msg.keyup(function(){
+                const str = $(this).val();
+                if(str !== "" || str.match(/^ *$/) === null)
+                    msg_send_btn.show();            
+                else
+                    msg_send_btn.hide();
+            })
+            
+            chat_list.click(function(e){
+                let targetChatId = $(this).attr('data-chatid');
+                typeMsg.show();
+
+                if(targetChatId === openedChatId)
+                    return;
+                
+                $('.msg_history').empty();
+                openedChatId = targetChatId;
+                
+                connection.invoke("JoinAtChat", targetChatId).catch(function (err) {
+                    return alert(err.toString());
+                });
+                
+                e.preventDefault();
+            });
+            
+            msg_send_btn.click(function(e){
+                const content = write_msg.val();
+                
+                connection.invoke("SendMessage", openedChatId, content).catch(function (err) {
+                    return alert(err.toString());
+                });
+                
+                write_msg.val('');
+
+                e.preventDefault();
+            });
+            
+            connection.on("HandleResponseMessages", function (response) {
+                
+                const inboxChat = $('.inbox_chat');
+                let lastMessageContent;
+                let lastMessageDate;
+                
+                response.messages.forEach(function(item) {
+                    const msgHistory = $('.msg_history');
+                    lastMessageContent = item.content;
+                    lastMessageDate = item.receivedDate;
+                    
+                    let mainBlock = item.userId !== '@User.Claims.First(f => f.Type == "uid").Value'
+                        ? `<div class=\"incoming_msg\">
+                            <div class=\"received_msg\">
+                                <div class=\"received_withd_msg\">`
+                                
+                        : `<div class=\"outgoing_msg\"> 
+                             <div class=\"sent_msg\">`;
+                    
+                        msgHistory.append("" +
+                            mainBlock +
+                                    "<p>" +
+                                        item.content +
+                                    "</p>" +
+                                    "<span class=\"time_date\">" + item.receivedDate +"</span>" +
+                                "</div>" +
+                            "</div>" +
+                        "</div>"
+                    );
+                });
+                
+                const targetChatList = inboxChat.find(`[data-chatid='${response.id}']`);
+                const chatContent = targetChatList.find('#chat_content')[0];
+                const chatDate = targetChatList.find('#chat_date')[0];
+                                
+                chatContent.innerText = lastMessageContent;
+                chatDate.innerText = lastMessageDate;
+            });
+        });
+        
+    </script>
+}
+
+<div class="messaging">
+    <div class="inbox_msg">
+        <div class="inbox_people">
+            <div class="inbox_chat">
+                @{
+                    foreach (var chatPreview in Model)
+                    {
+                        var date = chatPreview.LastMessageReceivedDate.ToString("dd.MM.yy hh:mm");
+
+                        <div class="chat_list" data-chatid="@chatPreview.ChatId" data-date="@date">
+                            <div class="chat_people">
+                                <div class="chat_ib">
+                                    <h5 id="chat_info">
+                                        @chatPreview.LastMessageUserName
+                                        <span id="chat_date" class="chat_date">@date</span>
+                                    </h5>
+                                    <p id="chat_content">
+                                        @chatPreview.LastMessageContent
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+        <div class="mesgs">
+            <div class="msg_history" style="text-align: center">   
+                Выберите диалог
+            </div>
+            <div class="type_msg">
+                <div class="input_msg_write">
+                    <input type="text" class="write_msg" id="write_msg" placeholder="Type a message"/>
+                    <button class="msg_send_btn" id="msg_send_btn" type="button">
+                        <img src="css/send.svg" alt="">
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

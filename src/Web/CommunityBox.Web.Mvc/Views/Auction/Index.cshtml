@@ -1,0 +1,61 @@
+﻿@model CommunityBox.Web.Mvc.ViewModels.Auction.AuctionViewModel
+@{
+    var currentUserId = User.Claims.FirstOrDefault(f => f.Type == "uid")?.Value;
+    var isAuthenticated = User.Identity.IsAuthenticated;
+}
+
+<div class="form-group">
+    <label asp-for="Lot.Name">Название лота</label>
+    <input type="text" asp-for="Lot.Name" class="form-control" disabled/>
+</div>
+<div class="form-group">
+    <label asp-for="Lot.Comment">Описание лота</label>
+    <input type="text" asp-for="Lot.Comment" class="form-control" disabled/>
+</div>
+<div class="form-group">
+    <label asp-for="Duration">Продолжительность аукциона (в днях)</label>
+    <input type="text" asp-for="Duration.TotalDays" class="form-control" disabled/>
+</div>
+<div class="form-group">
+    <label asp-for="StartingPrice">Стартовая цена </label>
+    <input type="text" asp-for="StartingPrice" class="form-control" disabled/>
+</div>
+@if (currentUserId == Model.OwnerUserId)
+{
+    <br/>
+    <a href="@Url.Action("Update", new {id = Model.Id})" class="form-control btn-warning text-center" role="button">Обновить</a>
+    <br/>
+    <a href="@Url.Action("Delete", new {id = Model.Id})" class="form-control btn-danger text-center" role="button">Удалить</a>
+}
+@if (currentUserId != Model.OwnerUserId && isAuthenticated)
+{
+    @if (Model.IsSubscribed)
+    {
+        <hr/>
+        <form asp-action="Unsubscribe" asp-route-id="@Model.Id">
+            <button class="form-control btn-outline-danger" id="unsubOnAuction" type="submit">Отписаться от аукциона</button>
+        </form>
+    }
+    else
+    {
+        <hr/>
+        <form asp-action="Subscribe" asp-route-id="@Model.Id">
+            <button class="form-control btn-outline-info" type="submit">Подписаться на обновления аукциона</button>
+        </form>
+    }
+    <hr/>
+    @if (Model.UserBet.HasValue)
+    {
+        <br/>
+        <label>Моя ставка - @Model.UserBet.Value</label>
+        <form asp-action="RemoveBet" asp-route-id="@Model.Id">
+            <button class="form-control btn-outline-danger" type="submit">Удалить ставку</button>
+        </form>
+    }
+    <br/>
+    <form asp-action="SetBet" asp-route-id="@Model.Id">
+        <input type="text" id="betValue" name="betValue" class="form-control"/>
+        <br/>
+        <button class="form-control btn-outline-info" type="submit">Установить ставку</button>
+    </form>
+}

@@ -1,0 +1,19 @@
+﻿@model IReadOnlyCollection<CommunityBox.Web.Mvc.ViewModels.Auction.AuctionViewModel>
+
+<div class="list-group">
+
+    @if (!Model.Any())
+    {
+        <h1>Список аукционов пуст</h1>
+    }
+
+    @foreach (var auction in Model)
+    {
+        var url = @Url.Action("Index", "Auction", new {id = auction.Id});
+        <a href="@url" class="list-group-item list-group-item-action">
+            <p>Назвние - <strong>@auction.Lot.Name </strong></p>
+            <p>Дата создания - <strong>@auction.CreationUtcDate.ToShortDateString()</strong></p>
+            <p>Стартовая цена - <strong>@auction.StartingPrice</strong></p>
+        </a>
+    }
+</div>

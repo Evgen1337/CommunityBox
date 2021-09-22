@@ -1,0 +1,22 @@
+﻿@model CommunityBox.Web.Mvc.ViewModels.Identities.LogInViewModel;
+
+<div class="container">
+    <form asp-action="LogIn" asp-controller="User" asp-anti-forgery="true">
+        <div>
+            <div class="form-group">
+                <label asp-for="Email">Введите Email</label>
+                <input type="text" asp-for="Email" class="form-control" value="string"/>
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password">Введите пароль</label>
+                <input type="password" asp-for="Password" class="form-control" value="Qwerty123!"/>
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <br/>
+            <div class="form-group">
+                <input type="submit" value="Войти" class="form-control  bLightBlu"/>
+            </div>
+        </div>
+    </form>
+</div>

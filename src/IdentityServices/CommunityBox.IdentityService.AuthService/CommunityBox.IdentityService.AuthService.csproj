@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="CodeJam" Version="4.0.0" />
+      <PackageReference Include="FluentValidation" Version="10.3.3" />
+      <PackageReference Include="Grpc.Core.Api" Version="2.39.1" />
+      <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
+      <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.12.2" />
+      <PackageReference Include="PasswordGenerator" Version="2.0.5" />
+      <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.12.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\CommonLibraries\CommunityBox.Common.AuthHelpers\CommunityBox.Common.AuthHelpers.csproj" />
+    </ItemGroup>
+
+</Project>
