@@ -12,7 +12,7 @@
         <PackageReference Include="Confluent.Kafka" Version="1.8.0" />
         <PackageReference Include="Grpc.AspNetCore" Version="2.39.0" />
         <PackageReference Include="Grpc.Net.Client" Version="2.39.0" />
-        <PackageReference Include="Grpc.Tools" Version="2.39.1">
+        <PackageReference Include="Grpc.Tools" Version="2.40.0">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
@@ -32,6 +32,8 @@
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
         <PackageReference Include="Microsoft.Extensions.Options" Version="5.0.0" />
         <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="5.0.0" />
+        <PackageReference Include="NLog" Version="4.7.11" />
+        <PackageReference Include="NLog.Web.AspNetCore" Version="4.14.0" />
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.7" />
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.0" />
     </ItemGroup>
@@ -45,6 +47,7 @@
       <ProjectReference Include="..\..\CommonLibraries\CommunityBox.Common.GrpcBlocks\CommunityBox.Common.GrpcBlocks.csproj" />
       <ProjectReference Include="..\..\CommonLibraries\CommunityBox.Common.Kafka.Messages\CommunityBox.Common.Kafka.Messages.csproj" />
       <ProjectReference Include="..\..\CommonLibraries\CommunityBox.Common.Kafka.Producer\CommunityBox.Common.Kafka.Producer.csproj" />
+      <ProjectReference Include="..\..\CommonLibraries\CommunityBox.Common.Logging\CommunityBox.Common.Logging.csproj" />
       <ProjectReference Include="..\CommunityBox.AuctionService.DAL\CommunityBox.AuctionService.DAL.csproj" />
       <ProjectReference Include="..\CommunityBox.AuctionService.Domain\CommunityBox.AuctionService.Domain.csproj" />
     </ItemGroup>
@@ -58,6 +61,11 @@
         <OutputDir>obj\Debug\net5.0\</OutputDir>
         <Generator>MSBuild:Compile</Generator>
       </Protobuf>
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="NLog.config" />
+      <None Include="NLog.Release.config" />
     </ItemGroup>
 
 </Project>

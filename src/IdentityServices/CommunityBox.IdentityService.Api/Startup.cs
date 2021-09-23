@@ -1,4 +1,6 @@
-﻿using CommunityBox.Common.GrpcBlocks.GrpcInterceptors;
+﻿using CommunityBox.Common.GrpcBlocks.Interceptors;
+using CommunityBox.Common.Logging;
+using CommunityBox.Common.Logging.Interceptors;
 using CommunityBox.IdentityService.Api.Databases;
 using CommunityBox.IdentityService.Api.Grpc;
 using Microsoft.AspNetCore.Builder;
@@ -20,10 +22,16 @@ namespace CommunityBox.IdentityService.Api
         
         public virtual void ConfigureServices(IServiceCollection services)
         {
-            services.AddGrpc(options => { options.Interceptors.Add<GlobalExceptionInterceptor>(); });
+            services.AddGrpc(options =>
+            {
+                options.Interceptors.Add<GlobalExceptionInterceptor>();
+                options.Interceptors.Add<RequestResponseLoggingInterceptor>();
+            });
+            
             services.AddAuthorization();
             services.AddAuthentication();
 
+            services.ConfigureLoggingServices();
             services.ConfigureAuthentication(Configuration);
             services.ConfigureMapper();
             services.ConfigureIdentityDb(Configuration);

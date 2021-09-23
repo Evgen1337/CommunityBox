@@ -2,6 +2,9 @@
 using System.Net;
 using System.Threading.Tasks;
 using CommunityBox.Common.Exceptions;
+using CommunityBox.Common.Logging.Abstractions;
+using CommunityBox.Common.Logging.Implementations;
+using FriendlyCards.Backend.Api.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
@@ -21,7 +24,7 @@ namespace CommunityBox.Api.WebGateway.Middlewares
             };
         }
 
-        public async Task InvokeAsync(HttpContext context/*, ILoggerProvider loggerProvider*/)
+        public async Task InvokeAsync(HttpContext context, ILoggerProvider loggerProvider)
         {
             try
             {
@@ -29,8 +32,8 @@ namespace CommunityBox.Api.WebGateway.Middlewares
             }
             catch (Exception ex)
             {
-                /*var logger = loggerProvider.GetLogger<GlobalExceptionMiddleware>();
-                logger.LogUnhandledErrorObj(ex, loggerProvider.LoggerContext);*/
+                var logger = loggerProvider.GetLogger<GlobalExceptionMiddleware>();
+                logger.LogUnhandledErrorObj(ex, loggerProvider.LoggerContext);
                 
                 await HandleExceptionAsync(context, ex);
             }
@@ -45,7 +48,7 @@ namespace CommunityBox.Api.WebGateway.Middlewares
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int) statusCode;
 
-            /*var jsonResponseContainer = new JsonResponseContainer
+            var jsonResponseContainer = new JsonResponseContainer
             {
                 Errors = new[]
                 {
@@ -55,7 +58,7 @@ namespace CommunityBox.Api.WebGateway.Middlewares
                         Detail = exception.Message
                     }
                 }
-            };*/
+            };
 
             var json = JsonConvert.SerializeObject(exception.ToString(), _serializerSettings);
             return context.Response.WriteAsync(json);

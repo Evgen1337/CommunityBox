@@ -2,7 +2,10 @@
 using CommunityBox.AuctionService.Api.Application.Queries;
 using CommunityBox.AuctionService.Api.AutofacModules;
 using CommunityBox.AuctionService.Api.Grpc;
-using CommunityBox.Common.GrpcBlocks.GrpcInterceptors;
+using CommunityBox.Common.GrpcBlocks.Interceptors;
+using CommunityBox.Common.Logging;
+using CommunityBox.Common.Logging.Interceptors;
+using CommunityBox.Common.Logging.Middlewares;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -24,11 +27,16 @@ namespace CommunityBox.AuctionService.Api
 
         public virtual void ConfigureServices(IServiceCollection services)
         {
-            services.AddGrpc(options => { options.Interceptors.Add<GlobalExceptionInterceptor>(); });
-            
-            services.ConfigureKafka(Configuration);
+            services.AddGrpc(options =>
+            {
+                options.Interceptors.Add<GlobalExceptionInterceptor>();
+                options.Interceptors.Add<RequestResponseLoggingInterceptor>();
+            });
+
+            services.ConfigureLoggingServices();
             services.AddScoped<IAuctionQueries, AuctionQueries>();
             services.ConfigureMapper();
+            services.ConfigureKafka(Configuration);
             services.ConfigureAuctionDb(Configuration);
         }
 
@@ -41,10 +49,7 @@ namespace CommunityBox.AuctionService.Api
 
             app.UseRouting();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapGrpcService<AuctionGrpcService>();
-            });
+            app.UseEndpoints(endpoints => { endpoints.MapGrpcService<AuctionGrpcService>(); });
 
             app.ExecuteCardsDbMigrations();
         }

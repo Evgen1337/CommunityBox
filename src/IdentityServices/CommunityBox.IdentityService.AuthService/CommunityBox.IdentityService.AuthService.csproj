@@ -7,7 +7,7 @@
     <ItemGroup>
       <PackageReference Include="CodeJam" Version="4.0.0" />
       <PackageReference Include="FluentValidation" Version="10.3.3" />
-      <PackageReference Include="Grpc.Core.Api" Version="2.39.1" />
+      <PackageReference Include="Grpc.Core.Api" Version="2.40.0" />
       <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
       <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.12.2" />

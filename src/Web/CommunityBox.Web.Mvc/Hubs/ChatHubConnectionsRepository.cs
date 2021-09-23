@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace CommunityBox.Web.Mvc.Hubs
 {
-    public class ChatHubConnectionsRepository
+    public static class ChatHubConnectionsRepository
     {
         private static readonly ConcurrentDictionary<string, UserConnection>
             UserConnections = new();

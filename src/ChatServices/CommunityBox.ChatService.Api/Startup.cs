@@ -1,4 +1,7 @@
 ﻿using CommunityBox.ChatService.Api.Services;
+using CommunityBox.Common.GrpcBlocks.Interceptors;
+using CommunityBox.Common.Logging;
+using CommunityBox.Common.Logging.Interceptors;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -18,8 +21,13 @@ namespace CommunityBox.ChatService.Api
 
         public virtual void ConfigureServices(IServiceCollection services)
         {
-            services.AddGrpc();
+            services.AddGrpc(options =>
+            {
+                options.Interceptors.Add<GlobalExceptionInterceptor>();
+                options.Interceptors.Add<RequestResponseLoggingInterceptor>();
+            });
 
+            services.ConfigureLoggingServices();
             services.AddScoped<IChatRepository, ChatRepository>();
             services.ConfigureKafka(Configuration);
             services.ConfigureClients(Configuration);

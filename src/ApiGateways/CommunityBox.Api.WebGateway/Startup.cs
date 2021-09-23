@@ -1,4 +1,5 @@
 using CommunityBox.Api.WebGateway.Convertors;
+using CommunityBox.Common.Logging;
 using CommunityBox.Common.Swagger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -21,6 +22,7 @@ namespace CommunityBox.Api.WebGateway
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.ConfigureLoggingServices();
             services.ConfigureServices(Configuration);
             services.ConfigureMapper();
             services.ConfigureJwtAuthentication(Configuration);
@@ -49,6 +51,8 @@ namespace CommunityBox.Api.WebGateway
 
             app.UseRouting();
 
+            app.UseHttpRequestLogging();
+                
             app.UseAuthentication();
             app.UseAuthorization();
 

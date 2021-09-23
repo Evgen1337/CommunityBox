@@ -25,7 +25,6 @@ namespace CommunityBox.Api.WebGateway.Services.Implementations
                 };
 
                 return await client.CreateAsync(request);
-                ;
             });
 
             return response.Auction;
@@ -43,7 +42,6 @@ namespace CommunityBox.Api.WebGateway.Services.Implementations
                 };
 
                 return await client.UpdateAsync(request);
-                ;
             });
 
             return response.Auction;

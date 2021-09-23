@@ -5,8 +5,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Google.Protobuf" Version="3.14.0" />
-      <PackageReference Include="Grpc.Core.Api" Version="2.39.1" />
+      <PackageReference Include="Google.Protobuf" Version="3.18.0" />
+      <PackageReference Include="Grpc.Core.Api" Version="2.40.0" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\CommunityBox.Common.Exceptions\CommunityBox.Common.Exceptions.csproj" />
+      <ProjectReference Include="..\CommunityBox.Common.Logging\CommunityBox.Common.Logging.csproj" />
     </ItemGroup>
 
 </Project>

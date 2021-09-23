@@ -11,13 +11,13 @@ namespace CommunityBox.Common.Core
     /// <summary>
     ///     Базовая cущность
     /// </summary>
-    public interface IEntity<TId>
+    public interface IEntity<T>
     {
         /// <summary>
         ///     Идентификатор
         /// </summary>
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        TId Id { get; set; }
+        T Id { get; set; }
     }
 }

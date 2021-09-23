@@ -12,7 +12,7 @@
         <PackageReference Include="AutoMapper" Version="10.1.1" />
         <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
         <PackageReference Include="Grpc.AspNetCore" Version="2.39.0" />
-        <PackageReference Include="Grpc.Tools" Version="2.39.1">
+        <PackageReference Include="Grpc.Tools" Version="2.40.0">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
@@ -34,6 +34,12 @@
       <ProjectReference Include="..\..\CommonLibraries\CommunityBox.Common.Core\CommunityBox.Common.Core.csproj" />
       <ProjectReference Include="..\..\CommonLibraries\CommunityBox.Common.GrpcBlocks\CommunityBox.Common.GrpcBlocks.csproj" />
       <ProjectReference Include="..\CommunityBox.IdentityService.AuthService\CommunityBox.IdentityService.AuthService.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="..\..\CommonLibraries\CommunityBox.Common.GrpcBlocks\CommunityBox.Common.GrpcBlocks.csproj">
+        <Link>CommunityBox.Common.GrpcBlocks.csproj</Link>
+      </Content>
     </ItemGroup>
 
 </Project>
