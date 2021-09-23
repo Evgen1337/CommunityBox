@@ -19,3 +19,5 @@
 - [x] Reliaze kafka libs
 - [ ] Request/Response global types
 - [ ] Healts checks
+- [ ] Load balance
+- [ ] docker files
