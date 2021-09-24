@@ -1,5 +1,6 @@
 # Application design
-![Application design](https://user-images.githubusercontent.com/43938668/134563538-a61be4fd-edc0-4bf6-8c23-ac140055225a.png)
+![Application design](https://user-images.githubusercontent.com/43938668/134672269-e26b59df-0aea-4dbb-8ab0-adbc1d43432b.png)
+
 
 
 # ToDo
