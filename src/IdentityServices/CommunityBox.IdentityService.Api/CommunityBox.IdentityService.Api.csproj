@@ -36,10 +36,4 @@
       <ProjectReference Include="..\CommunityBox.IdentityService.AuthService\CommunityBox.IdentityService.AuthService.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Content Include="..\..\CommonLibraries\CommunityBox.Common.GrpcBlocks\CommunityBox.Common.GrpcBlocks.csproj">
-        <Link>CommunityBox.Common.GrpcBlocks.csproj</Link>
-      </Content>
-    </ItemGroup>
-
 </Project>

@@ -29,7 +29,7 @@ namespace CommunityBox.Web.Mvc.Hubs
         {
             var chatId = long.Parse(targetChatId);
             var connId = Context.ConnectionId;
-            
+
             await GetMessagesRequestAsync(chatId, connId);
         }
 
@@ -37,7 +37,7 @@ namespace CommunityBox.Web.Mvc.Hubs
         {
             var chatId = long.Parse(targetChatId);
             var userId = GetUserId();
-            
+
             await SendMessageRequestAsync(chatId, content, userId);
         }
 
@@ -47,7 +47,7 @@ namespace CommunityBox.Web.Mvc.Hubs
             var connId = Context.ConnectionId;
 
             var userConnection = _chatGrpcClient.JoinAtMessenger(connId, userId,
-                async (response) => { await HandleJoinAtChatAsync(response, connId); });
+                async response => await HandleJoinAtChatAsync(response, connId));
 
             ChatHubConnectionsRepository.Add(connId, userConnection);
 

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace CommunityBox.Common.Logging.Middlewares
 {
-    public class HttpRequestResponseLoggingMiddleware
+    public sealed class HttpRequestResponseLoggingMiddleware
     {
         private readonly RequestDelegate _next;
 
@@ -15,7 +15,7 @@ namespace CommunityBox.Common.Logging.Middlewares
             _next = next;
         }
 
-        public async Task Invoke(HttpContext context, ILoggerProvider loggerProvider,
+        public async Task InvokeAsync(HttpContext context, ILoggerProvider loggerProvider,
             ILogRequestResponseService logRequestResponseService)
         {
             var logger = loggerProvider.GetLogger<HttpRequestResponseLoggingMiddleware>();

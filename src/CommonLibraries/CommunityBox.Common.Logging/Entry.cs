@@ -11,8 +11,6 @@ namespace CommunityBox.Common.Logging
     {
         public static IServiceCollection ConfigureLoggingServices(this IServiceCollection services)
         {
-            services.AddTransient<HttpRequestResponseLoggingMiddleware>();
-
             services.AddScoped<ILoggerContext, LoggerContext>();
             services.AddScoped<ILoggerProvider, LoggerProvider>();
             services.AddScoped<ILogRequestResponseService, LogRequestResponseService>();
