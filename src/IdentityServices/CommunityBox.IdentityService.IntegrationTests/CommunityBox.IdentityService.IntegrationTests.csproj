@@ -7,6 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="AutoFixture" Version="4.17.0" />
         <PackageReference Include="Grpc.Net.Client" Version="2.39.0" />
         <PackageReference Include="Grpc.Tools" Version="2.40.0">
             <PrivateAssets>all</PrivateAssets>
@@ -27,12 +28,6 @@
 
     <ItemGroup>
         <ProjectReference Include="..\CommunityBox.IdentityService.Api\CommunityBox.IdentityService.Api.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Reference Include="AutoFixture, Version=4.17.0.0, Culture=neutral, PublicKeyToken=b24654c590009d4f">
-        <HintPath>..\..\..\..\..\..\.nuget\packages\autofixture\4.17.0\lib\netstandard2.0\AutoFixture.dll</HintPath>
-      </Reference>
     </ItemGroup>
 
 </Project>
